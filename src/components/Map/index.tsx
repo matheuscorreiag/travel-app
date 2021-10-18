@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import ReactMapGL, { Marker } from 'react-map-gl';
 import { HiLocationMarker } from 'react-icons/hi';
+import ModalPopUp from '../ModalPopUp';
 
 interface IPointersArray {
   lat: number;
@@ -8,6 +9,8 @@ interface IPointersArray {
 }
 
 const Map = () => {
+  const [pointersArray, setPointersArray] = useState<IPointersArray[]>([]);
+  const [showPopUp, setShowPopUp] = useState(false);
   const [viewport, setViewport] = useState({
     width: '100vw',
     height: '100vh',
@@ -16,13 +19,16 @@ const Map = () => {
     zoom: 3
   });
 
-  const [pointersArray, setPointersArray] = useState<IPointersArray[]>([]);
-
   const addMarker = (event: any) => {
     const [long, lat] = event.lngLat;
     const coords = { long, lat };
 
     setPointersArray([...pointersArray, coords]);
+  };
+  const popUpFunction = () => {
+    console.log('Cheguei na funcao do popup');
+
+    setShowPopUp(true);
   };
 
   return (
@@ -45,12 +51,20 @@ const Map = () => {
                   longitude={item.long}
                   offsetLeft={-20}
                   offsetTop={-10}
+                  onClick={popUpFunction}
                 >
                   <HiLocationMarker color="red" size="2rem" />
                 </Marker>
               );
             })
           : null}
+
+        <ModalPopUp
+          show={showPopUp}
+          onHide={() => {
+            setShowPopUp(false);
+          }}
+        />
       </ReactMapGL>
     </div>
   );
