@@ -36,9 +36,6 @@ const Map = () => {
         mapboxApiAccessToken="pk.eyJ1IjoibWF0aGV1c2NvcnJlaWFnIiwiYSI6ImNrdXc5NDV2ZTRsNmkybm9mcGw0MmtsbXcifQ.wh8ypwqLopNG5xIt4uW0qA"
         onViewportChange={setViewport}
       >
-        {pointersArray.map((item) => {
-          console.log(item);
-        })}
         {pointersArray
           ? pointersArray.map((item) => {
               return (
