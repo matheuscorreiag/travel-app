@@ -2,3 +2,10 @@
   width: 100vw;
   height: 100vh;
 }
+.map {
+  overflow: hidden;
+}
+.pointer {
+  width: 50px !important;
+  height: 50px !important;
+}
