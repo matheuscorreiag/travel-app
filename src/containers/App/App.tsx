@@ -1,9 +1,8 @@
 import React from 'react';
+import Map from '../../components/Map/Map';
 
-// import { Container } from './styles';
-
-const App: React.FC = () => {
-  return <div />;
-}
+const App = () => {
+  return <Map />;
+};
 
 export default App;
