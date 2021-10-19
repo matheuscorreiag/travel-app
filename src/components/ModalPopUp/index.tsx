@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { Modal, Button } from 'react-bootstrap';
+import { Modal, Button, InputGroup, FormControl } from 'react-bootstrap';
 
 import './styles.css';
+import '../mixin.css';
 
 interface IModalShow {
   show: boolean;
@@ -21,12 +22,19 @@ const ModalPopUp: React.FC<IModalShow> = (props: IModalShow) => {
       <Modal {...props} show={props.show} onHide={handleClose}>
         {console.log(show)}
         <Modal.Header closeButton>
-          <Modal.Title> Você está em</Modal.Title>
+          <Modal.Title>
+            Adicione um comentário/imagem a sua localização
+          </Modal.Title>
         </Modal.Header>
-        <Modal.Body>João Pessoa!</Modal.Body>
+        <div className="inputGroupContainer">
+          <InputGroup className="inputGroup">
+            <FormControl as="textarea" aria-label="With textarea" />
+          </InputGroup>
+        </div>
         <Modal.Footer>
+          <Button variant="success">Enviar</Button>
           <Button variant="secondary" onClick={handleClose}>
-            Close
+            Fechar
           </Button>
         </Modal.Footer>
       </Modal>

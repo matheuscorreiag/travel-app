@@ -3,6 +3,8 @@ import ReactMapGL, { Marker } from 'react-map-gl';
 import { HiLocationMarker } from 'react-icons/hi';
 import ModalPopUp from '../ModalPopUp';
 
+import '../mixin.css';
+
 interface IPointersArray {
   lat: number;
   long: number;
