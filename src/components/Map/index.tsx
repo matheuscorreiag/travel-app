@@ -1,17 +1,13 @@
 import { useState } from 'react';
 import ReactMapGL, { Marker } from 'react-map-gl';
 import { HiLocationMarker } from 'react-icons/hi';
+
 import ModalPopUp from '../ModalPopUp';
 
 import '../mixin.css';
-
-interface IPointersArray {
-  lat: number;
-  long: number;
-}
+import useLocationStore from '../../stores/location';
 
 const Map = () => {
-  const [pointersArray, setPointersArray] = useState<IPointersArray[]>([]);
   const [showPopUp, setShowPopUp] = useState(false);
   const [viewport, setViewport] = useState({
     width: '100vw',
@@ -21,22 +17,21 @@ const Map = () => {
     zoom: 3
   });
 
-  const addMarker = (event: any) => {
-    const [long, lat] = event.lngLat;
-    const coords = { long, lat };
+  const addLocation = useLocationStore((state) => state.addLocation);
+  const locations = useLocationStore((state) => state.locations);
 
-    setPointersArray([...pointersArray, coords]);
-  };
-  const popUpFunction = () => {
-    console.log('Cheguei na funcao do popup');
+  const popUpFunction = async (e: any) => {
+    const [long, lat] = e.lngLat;
+    const location = { long, lat };
 
+    addLocation(location);
     setShowPopUp(true);
   };
 
   return (
     <div className="mapContainer">
       <ReactMapGL
-        onDblClick={(e) => addMarker(e)}
+        onDblClick={(e) => popUpFunction(e)}
         {...viewport}
         doubleClickZoom={false}
         className="map"
@@ -44,29 +39,23 @@ const Map = () => {
         mapboxApiAccessToken="pk.eyJ1IjoibWF0aGV1c2NvcnJlaWFnIiwiYSI6ImNrdXc5NDV2ZTRsNmkybm9mcGw0MmtsbXcifQ.wh8ypwqLopNG5xIt4uW0qA"
         onViewportChange={setViewport}
       >
-        {pointersArray
-          ? pointersArray.map((item) => {
-              return (
-                <Marker
-                  key={item.lat}
-                  latitude={item.lat}
-                  longitude={item.long}
-                  offsetLeft={-20}
-                  offsetTop={-10}
-                  onClick={popUpFunction}
-                >
-                  <HiLocationMarker color="red" size="2rem" />
-                </Marker>
-              );
-            })
-          : null}
-
         <ModalPopUp
           show={showPopUp}
           onHide={() => {
             setShowPopUp(false);
           }}
         />
+        {locations && (
+          <Marker
+            key={locations.lat}
+            latitude={locations.lat}
+            longitude={locations.long}
+            offsetLeft={-20}
+            offsetTop={-10}
+          >
+            <HiLocationMarker color="red" size="5rem" />
+          </Marker>
+        )}
       </ReactMapGL>
     </div>
   );
