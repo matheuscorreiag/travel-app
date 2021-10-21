@@ -6,9 +6,13 @@ import ModalPopUp from '../ModalPopUp';
 
 import '../mixin.css';
 import useLocationStore from '../../stores/location';
+import useMarkerStore from '../../stores/markers';
 
 const Map = () => {
   const [showPopUp, setShowPopUp] = useState(false);
+  const addLocation = useLocationStore((state) => state.addLocation);
+  const markers = useMarkerStore((state) => state.markers);
+
   const [viewport, setViewport] = useState({
     width: '100vw',
     height: '100vh',
@@ -17,15 +21,12 @@ const Map = () => {
     zoom: 3
   });
 
-  const addLocation = useLocationStore((state) => state.addLocation);
-  const locations = useLocationStore((state) => state.locations);
-
   const popUpFunction = async (e: any) => {
     const [long, lat] = e.lngLat;
     const location = { long, lat };
 
-    addLocation(location);
     setShowPopUp(true);
+    addLocation(location);
   };
 
   return (
@@ -45,17 +46,19 @@ const Map = () => {
             setShowPopUp(false);
           }}
         />
-        {locations && (
-          <Marker
-            key={locations.lat}
-            latitude={locations.lat}
-            longitude={locations.long}
-            offsetLeft={-20}
-            offsetTop={-10}
-          >
-            <HiLocationMarker color="red" size="5rem" />
-          </Marker>
-        )}
+
+        {markers[0] &&
+          markers.map((marker) => (
+            <Marker
+              key={marker.lat}
+              latitude={marker.lat}
+              longitude={marker.long}
+              offsetLeft={-20}
+              offsetTop={-10}
+            >
+              <HiLocationMarker color="red" size="2.5rem" />
+            </Marker>
+          ))}
       </ReactMapGL>
     </div>
   );
