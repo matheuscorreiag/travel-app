@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import ReactMapGL, { Marker } from 'react-map-gl';
-import { HiLocationMarker } from 'react-icons/hi';
+import { GiPositionMarker } from 'react-icons/gi';
 
 import ModalPopUp from '../ModalPopUp';
 
@@ -56,7 +56,7 @@ const Map = () => {
               offsetLeft={-20}
               offsetTop={-10}
             >
-              <HiLocationMarker color="red" size="2.5rem" />
+              <GiPositionMarker color="red" size="2.2rem" />
             </Marker>
           ))}
       </ReactMapGL>
