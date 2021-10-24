@@ -19,6 +19,3 @@ const useMarkersStore = create<IMarkerState>((set) => ({
 }));
 
 export default useMarkersStore;
-// markers: [],
-// addMarker: (marker: IMarker) => {
-//   set((state) => [...state, marker]);
