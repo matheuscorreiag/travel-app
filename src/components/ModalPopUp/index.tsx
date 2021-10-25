@@ -13,6 +13,7 @@ import api from '../../services/api';
 
 import './styles.css';
 import '../mixin.css';
+import { act } from 'react-dom/test-utils';
 
 interface IModalShow {
   show: boolean;
@@ -27,28 +28,32 @@ interface IForm {
 const ModalPopUp: React.FC<IModalShow> = (props: IModalShow) => {
   const locations = useLocationStore((state) => state.locations);
   const addMarkers = useMarkerStore((state) => state.addMarker);
-  let array = [
-    {
-      name: 'TEST NAME',
-      description: 'TEST DESCRIPTION',
-      test: 'a'
-    }
-  ];
+  const [activeCards, setActiveCards] = useState([]);
 
   const [reqBody, setReqbody] = useState<IForm>({} as IForm);
 
   useEffect(() => {
     setReqbody({ ...reqBody, lat: locations.lat, long: locations.long });
+
     //eslint-disable-next-line
   }, [locations]);
 
   const saveMarker = async () => {
     await api.post('/addMarker', reqBody).then((res) => {
       addMarkers(reqBody);
+      savedCards();
       props.onHide();
     });
   };
-
+  const savedCards = async () => {
+    await api
+      .get(
+        `/getLocationByCoords?lat=${-6.43463748077601}&long=${-36.8043993064567}`
+      )
+      .then((res) => {
+        setActiveCards(res.data as any);
+      });
+  };
   return (
     <>
       <Modal {...props}>
@@ -91,18 +96,19 @@ const ModalPopUp: React.FC<IModalShow> = (props: IModalShow) => {
                 Enviar
               </Button>
               <Button variant="secondary" onClick={props.onHide}>
-                {console.log('cheguei')}
                 Fechar
               </Button>
             </Modal.Footer>
           </div>
         </div>
-        {array.map((item) => (
-          <div className="oldMessages">
+
+        {activeCards.map((card) => (
+          <div className="oldMessages" key={card.message}>
+            {console.log(activeCards)}
             <div className="cardAndImageContainer">
               <Card.Body>
-                <Card.Title>{item.name}</Card.Title>
-                <Card.Text>{item.description}</Card.Text>
+                <Card.Title>{card.name} </Card.Title>
+                <Card.Text>{card.message} </Card.Text>
               </Card.Body>
               <Carousel>
                 <Carousel.Item>

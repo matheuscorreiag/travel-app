@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { v4 as uuid } from 'uuid';
 import ReactMapGL, { Marker } from 'react-map-gl';
 import { GiPositionMarker } from 'react-icons/gi';
 
@@ -50,7 +51,7 @@ const Map = () => {
         {markers[0] &&
           markers.map((marker) => (
             <Marker
-              key={marker.lat}
+              key={uuid()}
               latitude={marker.lat}
               longitude={marker.long}
               offsetLeft={-20}
