@@ -8,6 +8,7 @@ import ModalPopUp from '../ModalPopUp';
 import '../mixin.css';
 import useLocationStore from '../../stores/location';
 import useMarkerStore from '../../stores/markers';
+import api from '../../services/api';
 
 const Map = () => {
   const [showPopUp, setShowPopUp] = useState(false);
@@ -28,6 +29,14 @@ const Map = () => {
 
     setShowPopUp(true);
     addLocation(location);
+  };
+
+  const openSavedCards = async (lat: number, long: number) => {
+    await api
+      .get(`getLocationByCoords?lat=${lat}&long=${long}`)
+      .then((cards) => {
+        console.log(cards);
+      });
   };
 
   return (
@@ -56,6 +65,7 @@ const Map = () => {
               longitude={marker.long}
               offsetLeft={-20}
               offsetTop={-10}
+              onClick={() => openSavedCards(marker.lat, marker.long)}
             >
               <GiPositionMarker color="red" size="2.2rem" />
             </Marker>

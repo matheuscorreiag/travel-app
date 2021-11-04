@@ -13,7 +13,6 @@ import api from '../../services/api';
 
 import './styles.css';
 import '../mixin.css';
-import { act } from 'react-dom/test-utils';
 
 interface IModalShow {
   show: boolean;
