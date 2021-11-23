@@ -16,6 +16,7 @@ import '../mixin.css';
 import { addMarker } from '../../stores/fetchActions/marker';
 import { IForm } from '../../interfaces';
 import useMarkersStore from '../../stores/markers';
+import Alert from '../Alert';
 
 interface IModalShow {
   show: boolean;
@@ -29,6 +30,7 @@ interface IModalShow {
 const ModalPopUp: React.FC<IModalShow> = (props: IModalShow) => {
   const locations = useLocationStore((state) => state.locations);
   const [activeCards, setActiveCards] = useState([]);
+  const [showAlert, setShowAlert] = useState(false);
   const addMarkerStore = useMarkersStore((state) => state.addMarker);
 
   const [reqBody, setReqbody] = useState<IForm>({} as IForm);
@@ -40,14 +42,24 @@ const ModalPopUp: React.FC<IModalShow> = (props: IModalShow) => {
   }, [locations]);
 
   const saveMarker = async () => {
-    await addMarker(reqBody).then((res) => {
+    await addMarker(reqBody).then((res: any) => {
       console.log(res);
+      if (res.data.status === 200) {
+        addMarkerStore({ lat: reqBody.lat, long: reqBody.long });
+        setReqbody({
+          ...reqBody,
+          lat: null,
+          long: null,
+          message: null,
+          name: null
+        });
+        props.onHide();
+      } else {
+        setShowAlert(true);
+      }
     });
-    addMarkerStore({ lat: reqBody.lat, long: reqBody.long });
-    props.onHide();
   };
   const savedCards = async () => {
-    console.log('CHEGUEI AQUI');
     await api
       .get(
         `/getLocationByCoords?lat=${props.activelocation.lat}&long=${props.activelocation.long}`
@@ -55,12 +67,19 @@ const ModalPopUp: React.FC<IModalShow> = (props: IModalShow) => {
       .then((res) => {
         setActiveCards(res.data as any);
         return res.data;
+      })
+      .catch((err) => {
+        setShowAlert(true);
       });
   };
 
+  console.log('showAlert: ', showAlert);
   return (
     <>
       <Modal {...props}>
+        {showAlert && (
+          <Alert showalert={showAlert} hidealert={() => setShowAlert(false)} />
+        )}
         <div className="formContainer">
           <div className="formAlign">
             <Modal.Header closeButton>
@@ -105,27 +124,28 @@ const ModalPopUp: React.FC<IModalShow> = (props: IModalShow) => {
             </Modal.Footer>
           </div>
         </div>
-
-        {activeCards.map((card) => (
-          <div className="oldMessages" key={uuid()}>
-            <div className="cardAndImageContainer">
-              <Card.Body>
-                <Card.Title>{card.name} </Card.Title>
-                <Card.Text>{card.message} </Card.Text>
-              </Card.Body>
-              <Carousel>
-                <Carousel.Item>
-                  <img
-                    className="d-block w-100 slideImage"
-                    src="https://wallpapercave.com/wp/wp2537987.jpg"
-                    alt=""
-                  />
-                </Carousel.Item>
-              </Carousel>
+        {activeCards.length > 0 &&
+          activeCards.map((card) => (
+            <div className="oldMessages" key={uuid()}>
+              <div className="cardAndImageContainer">
+                <Card.Body>
+                  <Card.Title>{card.name} </Card.Title>
+                  <Card.Text>{card.message} </Card.Text>
+                </Card.Body>
+                <Carousel>
+                  <Carousel.Item>
+                    <img
+                      className="d-block w-100 slideImage"
+                      src="https://wallpapercave.com/wp/wp2537987.jpg"
+                      alt=""
+                    />
+                  </Carousel.Item>
+                </Carousel>
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
       </Modal>
+      )
     </>
   );
 };

@@ -1,0 +1,22 @@
+.alert-container {
+  height: 100px;
+  display: grid;
+  place-items: center;
+}
+.alert {
+  display: grid;
+  width: 30vw;
+  grid-template-columns: 92% 8%;
+  min-width: 270px;
+}
+.alertText {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+.close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  min-width: 20px;
+}

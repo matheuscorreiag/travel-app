@@ -17,7 +17,6 @@ const Map = () => {
     lat: null,
     long: null
   });
-  const [loading, setLoading] = useState(false);
   const savedMarkers = useMarkersStore((state) => state.markers);
   const addMarker = useMarkersStore((state) => state.addMarker);
 
@@ -25,9 +24,9 @@ const Map = () => {
 
   const fetchAPI = () => {
     if (savedMarkers.length === 0) {
-      getAllMarkers().then((res: IMarker[]) => {
-        setLoading(false);
-        res.forEach((marker: IMarker) => {
+      getAllMarkers().then((res: any) => {
+        const data = res.data;
+        data.forEach((marker: IMarker) => {
           addMarker({ lat: marker.lat, long: marker.long });
         });
       });
@@ -35,7 +34,6 @@ const Map = () => {
   };
 
   useEffect(() => {
-    setLoading(true);
     fetchAPI();
     // eslint-disable-next-line
   }, [savedMarkers]);
@@ -61,11 +59,7 @@ const Map = () => {
     setActiveLocation({ lat, long });
     setShowPopUp(true);
   };
-  return !loading ? (
-    <div>
-      <h1> Loading... </h1>
-    </div>
-  ) : (
+  return (
     <div className="mapContainer">
       <ReactMapGL
         onDblClick={(e) => popUpFunction(e)}

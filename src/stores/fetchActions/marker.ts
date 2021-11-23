@@ -8,5 +8,5 @@ export const getAllMarkers = async () => {
 export const addMarker = async (location) => {
   const response = await api.post('/addMarker', location);
 
-  return response.status;
+  return response;
 };
