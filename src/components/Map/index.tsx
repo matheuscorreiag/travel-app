@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { v4 as uuid } from 'uuid';
 import ReactMapGL, { Marker } from 'react-map-gl';
 import { GiPositionMarker } from 'react-icons/gi';
@@ -7,13 +7,38 @@ import ModalPopUp from '../ModalPopUp';
 
 import '../mixin.css';
 import useLocationStore from '../../stores/location';
-import useMarkerStore from '../../stores/markers';
-import api from '../../services/api';
+import { getAllMarkers } from '../../stores/fetchActions/marker';
+import { IMarker } from '../../interfaces';
+import useMarkersStore from '../../stores/markers';
 
 const Map = () => {
   const [showPopUp, setShowPopUp] = useState(false);
+  const [activeLocation, setActiveLocation] = useState({
+    lat: null,
+    long: null
+  });
+  const [loading, setLoading] = useState(false);
+  const savedMarkers = useMarkersStore((state) => state.markers);
+  const addMarker = useMarkersStore((state) => state.addMarker);
+
   const addLocation = useLocationStore((state) => state.addLocation);
-  const markers = useMarkerStore((state) => state.markers);
+
+  const fetchAPI = () => {
+    if (savedMarkers.length === 0) {
+      getAllMarkers().then((res: IMarker[]) => {
+        setLoading(false);
+        res.forEach((marker: IMarker) => {
+          addMarker({ lat: marker.lat, long: marker.long });
+        });
+      });
+    }
+  };
+
+  useEffect(() => {
+    setLoading(true);
+    fetchAPI();
+    // eslint-disable-next-line
+  }, [savedMarkers]);
 
   const [viewport, setViewport] = useState({
     width: '100vw',
@@ -26,20 +51,21 @@ const Map = () => {
   const popUpFunction = async (e: any) => {
     const [long, lat] = e.lngLat;
     const location = { long, lat };
+    setActiveLocation(location);
 
     setShowPopUp(true);
     addLocation(location);
   };
 
   const openSavedCards = async (lat: number, long: number) => {
-    await api
-      .get(`getLocationByCoords?lat=${lat}&long=${long}`)
-      .then((cards) => {
-        console.log(cards);
-      });
+    setActiveLocation({ lat, long });
+    setShowPopUp(true);
   };
-
-  return (
+  return !loading ? (
+    <div>
+      <h1> Loading... </h1>
+    </div>
+  ) : (
     <div className="mapContainer">
       <ReactMapGL
         onDblClick={(e) => popUpFunction(e)}
@@ -55,10 +81,11 @@ const Map = () => {
           onHide={() => {
             setShowPopUp(false);
           }}
+          activelocation={activeLocation}
         />
-
-        {markers[0] &&
-          markers.map((marker) => (
+        )
+        {savedMarkers[0] &&
+          savedMarkers.map((marker) => (
             <Marker
               key={uuid()}
               latitude={marker.lat}

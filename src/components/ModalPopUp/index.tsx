@@ -7,52 +7,57 @@ import {
   Card,
   Carousel
 } from 'react-bootstrap';
+import { v4 as uuid } from 'uuid';
 import useLocationStore from '../../stores/location';
-import useMarkerStore from '../../stores/markers';
 import api from '../../services/api';
 
 import './styles.css';
 import '../mixin.css';
+import { addMarker } from '../../stores/fetchActions/marker';
+import { IForm } from '../../interfaces';
+import useMarkersStore from '../../stores/markers';
 
 interface IModalShow {
   show: boolean;
   onHide: () => any;
+  activelocation: {
+    lat: number;
+    long: number;
+  };
 }
-interface IForm {
-  name: string;
-  message: string;
-  lat: number;
-  long: number;
-}
+
 const ModalPopUp: React.FC<IModalShow> = (props: IModalShow) => {
   const locations = useLocationStore((state) => state.locations);
-  const addMarkers = useMarkerStore((state) => state.addMarker);
   const [activeCards, setActiveCards] = useState([]);
+  const addMarkerStore = useMarkersStore((state) => state.addMarker);
 
   const [reqBody, setReqbody] = useState<IForm>({} as IForm);
 
   useEffect(() => {
     setReqbody({ ...reqBody, lat: locations.lat, long: locations.long });
-
+    savedCards();
     //eslint-disable-next-line
   }, [locations]);
 
   const saveMarker = async () => {
-    await api.post('/addMarker', reqBody).then((res) => {
-      addMarkers(reqBody);
-      savedCards();
-      props.onHide();
+    await addMarker(reqBody).then((res) => {
+      console.log(res);
     });
+    addMarkerStore({ lat: reqBody.lat, long: reqBody.long });
+    props.onHide();
   };
   const savedCards = async () => {
+    console.log('CHEGUEI AQUI');
     await api
       .get(
-        `/getLocationByCoords?lat=${-6.43463748077601}&long=${-36.8043993064567}`
+        `/getLocationByCoords?lat=${props.activelocation.lat}&long=${props.activelocation.long}`
       )
       .then((res) => {
         setActiveCards(res.data as any);
+        return res.data;
       });
   };
+
   return (
     <>
       <Modal {...props}>
@@ -102,8 +107,7 @@ const ModalPopUp: React.FC<IModalShow> = (props: IModalShow) => {
         </div>
 
         {activeCards.map((card) => (
-          <div className="oldMessages" key={card.message}>
-            {console.log(activeCards)}
+          <div className="oldMessages" key={uuid()}>
             <div className="cardAndImageContainer">
               <Card.Body>
                 <Card.Title>{card.name} </Card.Title>
@@ -114,21 +118,6 @@ const ModalPopUp: React.FC<IModalShow> = (props: IModalShow) => {
                   <img
                     className="d-block w-100 slideImage"
                     src="https://wallpapercave.com/wp/wp2537987.jpg"
-                    alt=""
-                  />
-                </Carousel.Item>
-
-                <Carousel.Item>
-                  <img
-                    className="d-block w-100 slideImage"
-                    src="https://wallpapercave.com/wp/wp2537970.jpg"
-                    alt=""
-                  />
-                </Carousel.Item>
-                <Carousel.Item>
-                  <img
-                    className="d-block w-100 slideImage"
-                    src="https://f.vividscreen.info/soft/4d73c126a42761d17d5afe181bff39ec/Lions-In-Kruger-National-Park-1920x1200.jpg"
                     alt=""
                   />
                 </Carousel.Item>

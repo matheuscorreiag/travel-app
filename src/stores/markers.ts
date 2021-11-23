@@ -1,19 +1,14 @@
 import create from 'zustand';
 
-export interface IMarker {
-  lat: number;
-  long: number;
-}
-
+import { ILocation } from './location';
 interface IMarkerState {
-  markers: IMarker[];
-  addMarker: (marker: IMarker) => void;
+  markers: ILocation[];
+  addMarker: (location: ILocation) => void;
 }
 
 const useMarkersStore = create<IMarkerState>((set) => ({
   markers: [],
-
-  addMarker: (marker: IMarker) => {
+  addMarker: (marker: ILocation) => {
     set((state) => ({ markers: [...state.markers, marker] }));
   }
 }));
