@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import { Alert as AlertBS, Button } from 'react-bootstrap';
+import { Alert as AlertBS } from 'react-bootstrap';
 import './styles.css';
 
 interface IAlert {
@@ -9,7 +8,7 @@ interface IAlert {
 
 const Alert = (props: IAlert) => {
   return (
-    <div className="alert-container" {...props}>
+    <div className="alert-container">
       <AlertBS show={props.showalert} variant="danger" className="alert">
         <h2 className="alertText">Missing Params</h2>
         <h2 className="close alertText " onClick={props.hidealert}>

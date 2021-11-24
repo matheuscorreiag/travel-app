@@ -43,7 +43,6 @@ const ModalPopUp: React.FC<IModalShow> = (props: IModalShow) => {
 
   const saveMarker = async () => {
     await addMarker(reqBody).then((res: any) => {
-      console.log(res);
       if (res.data.status === 200) {
         addMarkerStore({ lat: reqBody.lat, long: reqBody.long });
         setReqbody({
@@ -73,7 +72,6 @@ const ModalPopUp: React.FC<IModalShow> = (props: IModalShow) => {
       });
   };
 
-  console.log('showAlert: ', showAlert);
   return (
     <>
       <Modal {...props}>

@@ -1,11 +1,15 @@
 .alert-container {
   height: 100px;
   display: grid;
+  max-width: 500px;
   place-items: center;
+
+  width: 100%;
 }
 .alert {
   display: grid;
-  width: 30vw;
+
+  width: 100%;
   grid-template-columns: 92% 8%;
   min-width: 270px;
 }
