@@ -14,7 +14,7 @@ import api from '../../services/api';
 import './styles.css';
 import '../mixin.css';
 import { addMarker } from '../../stores/fetchActions/marker';
-import { IForm } from '../../interfaces';
+import { IForm, IMarker } from '../../interfaces';
 import useMarkersStore from '../../stores/markers';
 import Alert from '../Alert';
 
@@ -29,8 +29,9 @@ interface IModalShow {
 
 const ModalPopUp: React.FC<IModalShow> = (props: IModalShow) => {
   const locations = useLocationStore((state) => state.locations);
-  const [activeCards, setActiveCards] = useState([]);
+
   const [showAlert, setShowAlert] = useState(false);
+  const [activeCards, setActiveCards] = useState<IMarker[]>([]);
   const addMarkerStore = useMarkersStore((state) => state.addMarker);
 
   const [reqBody, setReqbody] = useState<IForm>({} as IForm);
@@ -38,6 +39,7 @@ const ModalPopUp: React.FC<IModalShow> = (props: IModalShow) => {
   useEffect(() => {
     setReqbody({ ...reqBody, lat: locations.lat, long: locations.long });
     savedCards();
+
     //eslint-disable-next-line
   }, [locations]);
 
@@ -63,15 +65,16 @@ const ModalPopUp: React.FC<IModalShow> = (props: IModalShow) => {
       .get(
         `/getLocationByCoords?lat=${props.activelocation.lat}&long=${props.activelocation.long}`
       )
-      .then((res) => {
-        setActiveCards(res.data as any);
-        return res.data;
+      .then((res: any) => {
+        if (res.data.status === 200) {
+          const data = res.data.data;
+          setActiveCards(data);
+        }
       })
       .catch((err) => {
         setShowAlert(true);
       });
   };
-
   return (
     <>
       <Modal {...props}>
@@ -122,7 +125,7 @@ const ModalPopUp: React.FC<IModalShow> = (props: IModalShow) => {
             </Modal.Footer>
           </div>
         </div>
-        {activeCards.length > 0 &&
+        {activeCards &&
           activeCards.map((card) => (
             <div className="oldMessages" key={uuid()}>
               <div className="cardAndImageContainer">

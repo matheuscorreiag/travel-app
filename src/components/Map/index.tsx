@@ -57,6 +57,7 @@ const Map = () => {
 
   const openSavedCards = async (lat: number, long: number) => {
     setActiveLocation({ lat, long });
+    addLocation({ lat, long });
     setShowPopUp(true);
   };
   return (
