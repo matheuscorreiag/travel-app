@@ -45,9 +45,6 @@ const ModalPopUp: React.FC<IModalShow> = (props: IModalShow) => {
     //eslint-disable-next-line
   }, [locations]);
 
-  console.log('reqBody: ', reqBody);
-  console.log('reqFile: ', selectedFile);
-
   const saveMarker = async () => {
     const data = new FormData();
     data.append('file', selectedFile);
