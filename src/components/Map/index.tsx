@@ -78,7 +78,6 @@ const Map = () => {
           }}
           activelocation={activeLocation}
         />
-        )
         {savedMarkers[0] &&
           savedMarkers.map((marker) => (
             <Marker

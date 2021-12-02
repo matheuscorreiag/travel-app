@@ -9,6 +9,7 @@ export interface IMarker {
   long: number;
   message: string;
   name: string;
+  image: string;
 }
 export interface IForm {
   name: string;

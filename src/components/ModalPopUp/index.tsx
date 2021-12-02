@@ -17,6 +17,7 @@ import { addMarker } from '../../stores/fetchActions/marker';
 import { IForm, IMarker } from '../../interfaces';
 import useMarkersStore from '../../stores/markers';
 import Alert from '../Alert';
+import Dropzone from '../Dropzone';
 
 interface IModalShow {
   show: boolean;
@@ -32,6 +33,7 @@ const ModalPopUp: React.FC<IModalShow> = (props: IModalShow) => {
 
   const [showAlert, setShowAlert] = useState(false);
   const [activeCards, setActiveCards] = useState<IMarker[]>([]);
+  const [selectedFile, setSelectedFile] = useState<File>();
   const addMarkerStore = useMarkersStore((state) => state.addMarker);
 
   const [reqBody, setReqbody] = useState<IForm>({} as IForm);
@@ -43,23 +45,44 @@ const ModalPopUp: React.FC<IModalShow> = (props: IModalShow) => {
     //eslint-disable-next-line
   }, [locations]);
 
+  console.log('reqBody: ', reqBody);
+  console.log('reqFile: ', selectedFile);
+
   const saveMarker = async () => {
-    await addMarker(reqBody).then((res: any) => {
+    const data = new FormData();
+    data.append('file', selectedFile);
+    data.append('name', reqBody.name);
+    data.append('lat', reqBody.lat.toString());
+    data.append('long', reqBody.long.toString());
+    data.append('message', reqBody.message);
+    if (
+      !reqBody.name ||
+      !reqBody.message ||
+      !reqBody.lat ||
+      !reqBody.long ||
+      !selectedFile
+    ) {
+      setShowAlert(true);
+      return;
+    }
+    addMarker(data).then((res: any) => {
       if (res.data.status === 200) {
         addMarkerStore({ lat: reqBody.lat, long: reqBody.long });
         setReqbody({
           ...reqBody,
-          lat: null,
-          long: null,
-          message: null,
-          name: null
+          lat: undefined,
+          long: undefined,
+          message: undefined,
+          name: undefined
         });
+        setSelectedFile(undefined);
         props.onHide();
       } else {
         setShowAlert(true);
       }
     });
   };
+
   const savedCards = async () => {
     await api
       .get(
@@ -75,9 +98,10 @@ const ModalPopUp: React.FC<IModalShow> = (props: IModalShow) => {
         setShowAlert(true);
       });
   };
+
   return (
     <>
-      <Modal {...props}>
+      <Modal {...props} backdrop="static">
         {showAlert && (
           <Alert showalert={showAlert} hidealert={() => setShowAlert(false)} />
         )}
@@ -115,6 +139,8 @@ const ModalPopUp: React.FC<IModalShow> = (props: IModalShow) => {
                 <FormControl as="textarea" aria-label="With textarea" />
               </InputGroup>
             </div>
+            <Dropzone onFileUploaded={(e) => setSelectedFile(e)} />
+
             <Modal.Footer>
               <Button variant="success" onClick={saveMarker}>
                 Enviar
@@ -137,8 +163,8 @@ const ModalPopUp: React.FC<IModalShow> = (props: IModalShow) => {
                   <Carousel.Item>
                     <img
                       className="d-block w-100 slideImage"
-                      src="https://wallpapercave.com/wp/wp2537987.jpg"
-                      alt=""
+                      src={card.image}
+                      alt="img"
                     />
                   </Carousel.Item>
                 </Carousel>
