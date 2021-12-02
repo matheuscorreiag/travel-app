@@ -4,8 +4,9 @@
   height: 50px;
   border: 1px dashed blue;
   cursor: pointer;
-  font-size: 1.2rem;
+  font-size: 0.8rem;
   font-weight: bold;
+  border-radius: 8px;
 }
 .dropzone p {
   margin: 0;

@@ -32,7 +32,7 @@ export const MyDropzone: React.FC<Props> = ({ onFileUploaded }) => {
       {selectedFileUrl ? (
         <p> {fileName}</p>
       ) : (
-        <p> Arraste sua imagem para cá</p>
+        <p> Arraste sua imagem para cá ou clique para selecionar</p>
       )}
     </div>
   );
