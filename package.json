@@ -42,7 +42,10 @@
     "production": [
       ">0.2%",
       "not dead",
-      "not op_mini all"
+      "not op_mini all",
+      "not ie 11",
+      "not chrome < 51",
+      "not safari < 10"
     ],
     "development": [
       "last 1 chrome version",
@@ -52,6 +55,9 @@
   },
   "devDependencies": {
     "@types/uuid": "^8.3.1",
-    "prettier": "^2.4.1"
+    "json-loader": "^0.5.7",
+    "prettier": "^2.4.1",
+    "transform-loader": "^0.2.4",
+    "webworkify-webpack": "1.0.6"
   }
 }
