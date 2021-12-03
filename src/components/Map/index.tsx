@@ -5,8 +5,13 @@ import { GiPositionMarker } from 'react-icons/gi';
 import 'mapbox-gl/dist/mapbox-gl.css';
 
 import ModalPopUp from '../ModalPopUp';
+import 'mapbox-gl/dist/mapbox-gl.css';
+import mapboxgl from 'mapbox-gl';
+
 // @ts-ignore
-import mapboxgl from '!mapbox-gl';
+// eslint-disable-next-line import/no-webpack-loader-syntax
+mapboxgl.workerClass =
+  require('worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker').default;
 
 import '../mixin.css';
 import useLocationStore from '../../stores/location';
