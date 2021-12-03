@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { v4 as uuid } from 'uuid';
 import ReactMapGL, { Marker } from 'react-map-gl';
 import { GiPositionMarker } from 'react-icons/gi';
+import 'mapbox-gl/dist/mapbox-gl.css';
 
 import ModalPopUp from '../ModalPopUp';
 
