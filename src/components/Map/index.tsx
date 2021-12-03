@@ -5,6 +5,8 @@ import { GiPositionMarker } from 'react-icons/gi';
 import 'mapbox-gl/dist/mapbox-gl.css';
 
 import ModalPopUp from '../ModalPopUp';
+// @ts-ignore
+import mapboxgl from '!mapbox-gl';
 
 import '../mixin.css';
 import useLocationStore from '../../stores/location';
