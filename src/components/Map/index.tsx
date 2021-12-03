@@ -21,13 +21,12 @@ const Map = () => {
   const addMarker = useMarkersStore((state) => state.addMarker);
 
   const addLocation = useLocationStore((state) => state.addLocation);
-  console.log('savedMarkers:', savedMarkers);
 
   const fetchAPI = () => {
     if (savedMarkers.length === 0) {
       getAllMarkers().then((res: any) => {
         const data = res.data;
-        console.log('data: ', data);
+
         data.forEach((marker: IMarker) => {
           addMarker({ lat: marker.lat, long: marker.long });
         });
