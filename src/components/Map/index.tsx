@@ -85,16 +85,20 @@ const Map = () => {
         />
         {savedMarkers[0] &&
           savedMarkers.map((marker) => (
-            <Marker
-              key={uuid()}
-              latitude={marker.lat}
-              longitude={marker.long}
-              offsetLeft={-20}
-              offsetTop={-10}
+            <div
               onClick={() => openSavedCards(marker.lat, marker.long)}
+              key={uuid()}
             >
-              <GiPositionMarker color="red" size="2.2rem" />
-            </Marker>
+              <Marker
+                key={uuid()}
+                latitude={marker.lat}
+                longitude={marker.long}
+                offsetLeft={-20}
+                offsetTop={-10}
+              >
+                <GiPositionMarker color="red" size="2.2rem" />
+              </Marker>
+            </div>
           ))}
       </ReactMapGL>
     </div>
