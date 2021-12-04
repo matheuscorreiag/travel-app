@@ -31,6 +31,8 @@ const Map = () => {
       getAllMarkers().then((res: any) => {
         const data = res.data;
 
+        if (data.status !== 200) return;
+
         data.forEach((marker: IMarker) => {
           addMarker({ lat: marker.lat, long: marker.long });
         });

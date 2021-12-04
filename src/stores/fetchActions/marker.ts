@@ -5,7 +5,7 @@ export const getAllMarkers = async () => {
 
   return response.data;
 };
-export const addMarker = async (location) => {
+export const addMarker = async (location: FormData) => {
   const response = await api.post('/addMarker', location, {
     headers: { 'Content-Type': 'multipart/form-data' }
   });

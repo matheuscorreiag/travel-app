@@ -62,4 +62,7 @@
 }
 .card-body {
   color: #fff !important;
+  overflow-y: scroll;
+  max-height: 200px;
+  overflow-wrap: break-word;
 }
