@@ -9,11 +9,11 @@ module.exports = {
       },
       { test: /\.json$/, loader: 'json-loader' },
       {
-        test: /\.js$/,
-        include: path.resolve(__dirname, 'node_modules/webworkify/index.js'),
+        test: /\.ts$/,
+        include: path.resolve(__dirname, 'node_modules/webworkify/index.ts'),
         loader: 'worker'
       },
-      { test: /mapbox-gl.+\.js$/, loader: 'transform/cacheable?brfs' }
+      { test: /mapbox-gl.+\.ts$/, loader: 'transform/cacheable?brfs' }
     ],
     resolve: {
       extensions: ['', '.ts', '.tsx'],
