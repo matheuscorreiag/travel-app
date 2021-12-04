@@ -4,11 +4,16 @@ import ReactMapGL, { Marker } from 'react-map-gl';
 import { GiPositionMarker } from 'react-icons/gi';
 import ModalPopUp from '../ModalPopUp';
 
+import mapboxgl from 'mapbox-gl';
+
 import '../mixin.css';
 import useLocationStore from '../../stores/location';
 import { getAllMarkers } from '../../stores/fetchActions/marker';
 import { IMarker } from '../../interfaces';
 import useMarkersStore from '../../stores/markers';
+
+mapboxgl.workerClass =
+  require('worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker').default; // eslint-disable-line import/no-webpack-loader-syntax
 
 const Map = () => {
   const [showPopUp, setShowPopUp] = useState(false);
