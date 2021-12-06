@@ -11,11 +11,10 @@
 
 ## Demonstration
 
-<img src="C:/Users/mathe/Desktop/inicial.png" alt="Initial Page">
-
-![Modal](C:/Users/mathe/Desktop/modal.png)
-![New location](C:/Users/mathe/Desktop/localsalvo.png)
-![Saved Card](C:/Users/mathe/Desktop/modal.png)
+![Inicial Page](https://github.com/matheuscorreiag/travel-app/blob/master/examples/inicial.png)
+![Modal](https://github.com/matheuscorreiag/travel-app/blob/master/examples/modal.png)
+![New location](https://github.com/matheuscorreiag/travel-app/blob/master/examples/localsalvo.png)
+![Saved Card](https://github.com/matheuscorreiag/travel-app/blob/master/examples/cardsalvo.png)
 
 ## Available Scripts
 
