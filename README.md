@@ -11,7 +11,7 @@
 
 ## Demonstration
 
-<img src="C:/Users/mathe/Desktop/inicial.png">
+<img src="C:/Users/mathe/Desktop/inicial.png" alt="Initial Page">
 
 ![Modal](C:/Users/mathe/Desktop/modal.png)
 ![New location](C:/Users/mathe/Desktop/localsalvo.png)
