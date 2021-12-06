@@ -1,4 +1,4 @@
-# Getting Started with Create React App
+# Traveller App
 
 - This is a study purpose project.
   The concept behind this project is to mark every visited location in the world, and to be
@@ -8,6 +8,8 @@
   The server can be found were: <https://github.com/matheuscorreiag/api-travelapp>.
 
 - In the project directory, you have to create a .env file with your Mapbox token.
+
+- Try yourself in <https://travellerproject.vercel.app>
 
 ## Demonstration
 
