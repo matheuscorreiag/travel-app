@@ -11,10 +11,14 @@
 
 ## Demonstration
 
-![Inicial Page](https://github.com/matheuscorreiag/travel-app/blob/master/examples/inicial.png)
-![Modal](https://github.com/matheuscorreiag/travel-app/blob/master/examples/modal.png)
-![New location](https://github.com/matheuscorreiag/travel-app/blob/master/examples/localsalvo.png)
-![Saved Card](https://github.com/matheuscorreiag/travel-app/blob/master/examples/cardsalvo.png)
+- Initial page showing the empty map
+  ![Inicial Page](https://github.com/matheuscorreiag/travel-app/blob/master/examples/inicial.png)
+- On double click open the modal
+  ![Modal](https://github.com/matheuscorreiag/travel-app/blob/master/examples/modal.png)
+- Image showing when a location is saved
+  ![New location](https://github.com/matheuscorreiag/travel-app/blob/master/examples/localsalvo.png)
+- When the user click on a existing marker, open the old cards
+  ![Saved Card](https://github.com/matheuscorreiag/travel-app/blob/master/examples/cardsalvo.png)
 
 ## Available Scripts
 
